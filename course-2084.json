@@ -2,8 +2,8 @@
   "schema": 1,
   "courseId": 2084,
   "repository": "LearningOS/2026a-rustling-Qiming124",
-  "commit": "a8db7f93675683c29f7d682ed83ea75a42e2ba68",
-  "score": 33,
+  "commit": "0d8e88cdf057ad34996d6917bccfcc79ffc148cd",
+  "score": 34,
   "totalScore": 110,
   "exercises": [
     {
@@ -240,9 +240,9 @@
     {
       "name": "enums1",
       "max": 1,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 1
+      "score": 1,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "enums2",
@@ -778,9 +778,9 @@
     }
   ],
   "student": "Qiming124",
-  "runId": "36982240317",
+  "runId": "37008395976",
   "runAttempt": "1",
   "upload": {
-    "status": "accepted"
+    "status": "pending"
   }
 }
