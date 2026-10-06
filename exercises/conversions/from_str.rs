@@ -31,27 +31,39 @@ enum ParsePersonError {
     ParseInt(ParseIntError),
 }
 
-// I AM NOT DONE
-
-// Steps:
-// 1. If the length of the provided string is 0, an error should be returned
-// 2. Split the given string on the commas present in it
-// 3. Only 2 elements should be returned from the split, otherwise return an
-//    error
-// 4. Extract the first element from the split operation and use it as the name
-// 5. Extract the other element from the split operation and parse it into a
-//    `usize` as the age with something like `"4".parse::<usize>()`
-// 6. If while extracting the name and the age something goes wrong, an error
-//    should be returned
-// If everything goes well, then return a Result of a Person object
+// 步骤：
+// 1. 如果提供的字符串长度为 0，则应返回一个错误
+// 2. 按字符串中的逗号进行分割
+// 3. 分割后应仅返回 2 个元素，否则返回一个错误
+// 4. 取分割结果的第一个元素作为姓名
+// 5. 取分割结果的另一个元素，并将其解析为 `usize` 作为年龄，类似
+//    `"4".parse::<usize>()`
+// 6. 如果在提取姓名和年龄时出现问题，则应返回一个错误
+// 如果一切正常，则返回一个 `Person` 对象的 `Result`
 //
-// As an aside: `Box<dyn Error>` implements `From<&'_ str>`. This means that if
-// you want to return a string error message, you can do so via just using
-// return `Err("my error message".into())`.
+// 顺带一提：`Box<dyn Error>` 实现了 `From<&'_ str>`。这意味着如果你想返回
+// 一个字符串错误消息，可以直接这样写：`return Err("my error message".into())`。
 
 impl FromStr for Person {
     type Err = ParsePersonError;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        if s.is_empty(){
+            return Err(ParsePersonError::Empty)
+        };
+        let words:Vec<_>=s.split(',').collect();
+        if words.len()!=2{
+            return Err(ParsePersonError::BadLen)
+        };
+        let name=words[0].to_string();
+        let age_re=words[1].to_string().parse::<usize>();
+        let age=match age_re {
+            Ok(age)=>age,
+            Err(age)=>return Err(ParsePersonError::ParseInt(age))    
+        };
+        if name.is_empty(){
+            return Err(ParsePersonError::NoName);
+        }
+        Ok(Person{name:name,age:age})
     }
 }
 

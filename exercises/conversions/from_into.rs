@@ -30,20 +30,34 @@ impl Default for Person {
 // outcome of this needs to be handled appropriately.
 //
 // Steps:
-// 1. If the length of the provided string is 0, then return the default of
-//    Person.
-// 2. Split the given string on the commas present in it.
-// 3. Extract the first element from the split operation and use it as the name.
-// 4. If the name is empty, then return the default of Person.
-// 5. Extract the other element from the split operation and parse it into a
-//    `usize` as the age.
-// If while parsing the age, something goes wrong, then return the default of
-// Person Otherwise, then return an instantiated Person object with the results
+// 1. 如果提供的字符串长度为 0，则返回 `Person` 的默认值。
+// 2. 按字符串中的逗号进行分割。
+// 3. 取分割结果的第一个元素作为姓名。
+// 4. 如果姓名为空，则返回 `Person` 的默认值。
+// 5. 取分割结果的另一个元素，并将其解析为 `usize` 作为年龄。
+// 如果在解析年龄时出现错误，则返回 `Person` 的默认值；否则，返回一个
+// 使用这些结果实例化的 `Person` 对象。
 
-// I AM NOT DONE
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        if s.is_empty(){
+            return Person::default();
+        }
+        let mut words=s.split(',');
+        let name=words.next().unwrap_or_default();
+        if name.is_empty(){
+            return Person::default();
+        }
+        let age_str=words.next().unwrap_or_default();
+        let age =match age_str.parse::<usize>(){
+            Ok(age)=>age,
+            Err(_)=>return Person::default()
+        };
+        if words.next()!=None{
+            return Person::default();
+        }
+        Person { name:name.to_string() , age:age}
     }
 }
 
